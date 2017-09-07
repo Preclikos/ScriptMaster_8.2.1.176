@@ -18,6 +18,9 @@ window.ScriptEditor = function(config,$,Q)	{
 			case "s":
 				name = name+"es";
 				break;
+			case "x":
+				name = name+"es";
+				break;
 			case "y":
 				name = name.slice(0,-1)+"ies";
 				break;
@@ -292,12 +295,12 @@ window.ScriptEditor = function(config,$,Q)	{
 							val = val[0].name
 						}
 						break;
-					// case "datetime":
-						// val = Xrm.Page.getAttribute(fieldName).getValue() || "";
-						// if(val!==""){
-							// val = val.localeFormat();
-						// }
-						// break;
+					case "datetime":
+						val = Xrm.Page.getAttribute(fieldName).getValue() || "";
+						if(val!==""){
+							val = val.getTime();
+						}
+						break;
 					default:
 					val = Xrm.Page.getAttribute(fieldName).getValue() || "";
 						break;
@@ -376,7 +379,7 @@ window.ScriptEditor = function(config,$,Q)	{
 						//TODO: prepare for multiple properties
 						var result = data[property] || "";
 						if(associatedLookupEntityName != ""){
-							if(result!=null){
+							if(result!=""){
 								se.retrieveSingleEA([associatedLookupEntityName,result,associatedLookupProperty]).then(function(data){
 									var trueResult = data[associatedLookupProperty];
 									var lookupObj = createLookupObject(result,trueResult,associatedLookupEntityName);
@@ -1182,6 +1185,21 @@ window.ScriptEditor = function(config,$,Q)	{
 		});
 	}
 	
+	/// <summary>
+	/// gets current date
+	/// returns the number of milliseconds between midnight of January 1, 1970 and the current date.
+	/// </summary>
+	/// <param name="args" type="array" mayBeNull="false" optional="false" >
+	/// @args	:	none
+	/// </param>
+	var getCurrentDate = function(args){
+		var se = this;
+		return new Q.Promise(function(resolve,reject){
+			var currentDate = new Date().getTime();
+			resolve(currentDate);
+		});
+	}
+	
 	var assign = function(){
 		var se = this;
 		//assign to correct event/field/button/whatever...
@@ -1289,6 +1307,7 @@ window.ScriptEditor = function(config,$,Q)	{
 		removeNotification	:	removeNotification,
 		getFormType			:	getFormType,
 		getUserLanguage		:	getUserLanguage,
+		getCurrentDate		:	getCurrentDate,
 		cachedCalls			:	{}
 	};
 };

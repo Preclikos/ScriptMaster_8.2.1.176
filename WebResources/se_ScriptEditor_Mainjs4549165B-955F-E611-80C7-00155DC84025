@@ -312,6 +312,39 @@ window.ScriptEditor = function(config,$,Q)	{
 	}
 	
 	/// <summary>
+	/// Gets multilookup entity name string current form
+	/// </summary>
+	/// <param name="args" type="array" mayBeNull="false" optional="false" >
+	/// @args[0] : field name {String,Link}
+	/// </param>
+	var getMultiLookupValueType = function(args){
+		var se = this;
+		return new Q.Promise(function(resolve,reject){
+			var a = se._checkForLink(args[0]);
+			Q.Promise.all([a]).then(function(values){
+				var fieldName = values[0]
+				console.log("|#|Fn: "+se._config.FunctionName+" >>>getMultiLookupValueType started<<< input: fieldName: '"+fieldName+"'|#|");
+				var val = "";
+				if(Xrm.Page.getAttribute(fieldName)!==null){
+					var fieldVal = Xrm.Page.getAttribute(fieldName).getValue();
+					if(fieldVal!==null && fieldVal.length!=0){
+						var type = parseInt(fieldVal[0].type);
+						var availableTypes = Xrm.Page.getAttribute(fieldName).getLookupDataAttribute().get_attributeMetadata().LookupTypeNames;
+						var match = $(availableTypes).grep(function(n,i){
+								return n.EntityTypeId === type;
+							});
+						if($(match).length!=0){
+							val = match[0].EntityName;
+						}
+					}
+				}
+				console.log("|#|Fn: "+se._config.FunctionName+" >>>getMultiLookupValueType ended<<< result: "+val+"|#|");
+				resolve(val);
+			});
+		});
+	}
+	
+	/// <summary>
 	/// Gets currrent user lookupObj
 	/// </summary>
 	/// <param name="args" type="array" mayBeNull="false" optional="false" >
@@ -1308,6 +1341,7 @@ window.ScriptEditor = function(config,$,Q)	{
 		getFormType			:	getFormType,
 		getUserLanguage		:	getUserLanguage,
 		getCurrentDate		:	getCurrentDate,
+		getMultiLookupValueType:getMultiLookupValueType,
 		cachedCalls			:	{}
 	};
 };

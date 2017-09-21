@@ -7,7 +7,7 @@
     <Descriptions>
       <Description description="First working beta of form loader" languagecode="1033" />
     </Descriptions>
-    <Version>0.0.0032</Version>
+    <Version>0.0.0033</Version>
     <Managed>0</Managed>
     <Publisher>
       <UniqueName>scripteditor</UniqueName>

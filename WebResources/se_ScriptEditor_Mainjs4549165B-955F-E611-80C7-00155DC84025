@@ -330,7 +330,7 @@ window.ScriptEditor = function(config,$,Q)	{
 					if(fieldVal!==null && fieldVal.length!=0){
 						var type = parseInt(fieldVal[0].type);
 						var availableTypes = Xrm.Page.getAttribute(fieldName).getLookupDataAttribute().get_attributeMetadata().LookupTypeNames;
-						var match = $(availableTypes).grep(function(n,i){
+						var match = $.grep(availableTypes, function(n,i) {
 								return n.EntityTypeId === type;
 							});
 						if($(match).length!=0){

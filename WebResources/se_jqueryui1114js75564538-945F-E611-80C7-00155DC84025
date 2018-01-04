@@ -10553,8 +10553,11 @@ $.extend( Datepicker.prototype, {
 	/* Action for current link. */
 	_gotoToday: function( id ) {
 		var date,
-			target = $( id ),
-			inst = this._getInst( target[ 0 ] );
+			target = $( id );
+		if(target.length == 0){
+			target = $( id ,window.top.document);
+		}
+		var inst = this._getInst( target[ 0 ] );
 
 		if ( this._get( inst, "gotoCurrent" ) && inst.currentDay ) {
 			inst.selectedDay = inst.currentDay;
@@ -10572,8 +10575,11 @@ $.extend( Datepicker.prototype, {
 
 	/* Action for selecting a new month/year. */
 	_selectMonthYear: function( id, select, period ) {
-		var target = $( id ),
-			inst = this._getInst( target[ 0 ] );
+		var target = $( id );
+		if(target.length == 0){
+			target = $( id ,window.top.document);
+		}
+		var inst = this._getInst( target[ 0 ] );
 
 		inst[ "selected" + ( period === "M" ? "Month" : "Year" ) ] =
 		inst[ "draw" + ( period === "M" ? "Month" : "Year" ) ] =
@@ -10587,7 +10593,9 @@ $.extend( Datepicker.prototype, {
 	_selectDay: function( id, month, year, td ) {
 		var inst,
 			target = $( id );
-
+		if(target.length == 0){
+			target = $( id ,window.top.document);
+		}
 		if ( $( td ).hasClass( this._unselectableClass ) || this._isDisabledDatepicker( target[ 0 ] ) ) {
 			return;
 		}
@@ -10603,14 +10611,20 @@ $.extend( Datepicker.prototype, {
 	/* Erase the input field and hide the date picker. */
 	_clearDate: function( id ) {
 		var target = $( id );
+		if(target.length == 0){
+			target = $( id ,window.top.document);
+		}
 		this._selectDate( target, "" );
 	},
 
 	/* Update the input field with the selected date. */
 	_selectDate: function( id, dateStr ) {
 		var onSelect,
-			target = $( id ),
-			inst = this._getInst( target[ 0 ] );
+			target = $( id );
+		if(target.length == 0){
+			target = $( id ,window.top.document);
+		}
+		var inst = this._getInst( target[ 0 ] );
 
 		dateStr = ( dateStr != null ? dateStr : this._formatDate( inst ) );
 		if ( inst.input ) {

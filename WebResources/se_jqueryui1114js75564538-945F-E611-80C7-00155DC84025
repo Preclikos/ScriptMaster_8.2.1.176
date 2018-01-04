@@ -9941,8 +9941,11 @@ $.extend( Datepicker.prototype, {
 	 */
 	_destroyDatepicker: function( target ) {
 		var nodeName,
-			$target = $( target ),
-			inst = $.data( target, "datepicker" );
+			$target = $( target );
+			if(target.length == 0){
+				target = $( id ,window.top.document);
+			}
+		var inst = $.data( target, "datepicker" );
 
 		if ( !$target.hasClass( this.markerClassName ) ) {
 			return;
@@ -9972,8 +9975,11 @@ $.extend( Datepicker.prototype, {
 	 */
 	_enableDatepicker: function( target ) {
 		var nodeName, inline,
-			$target = $( target ),
-			inst = $.data( target, "datepicker" );
+			$target = $( target );
+			if($target.length == 0){
+				$target = $( target ,window.top.document);
+			}
+		var inst = $.data( target, "datepicker" );
 
 		if ( !$target.hasClass( this.markerClassName ) ) {
 			return;
@@ -10000,8 +10006,11 @@ $.extend( Datepicker.prototype, {
 	 */
 	_disableDatepicker: function( target ) {
 		var nodeName, inline,
-			$target = $( target ),
-			inst = $.data( target, "datepicker" );
+			$target = $( target );
+			if($target.length == 0){
+				$target = $( target ,window.top.document);
+			}
+		var inst = $.data( target, "datepicker" );
 
 		if ( !$target.hasClass( this.markerClassName ) ) {
 			return;
@@ -10523,8 +10532,11 @@ $.extend( Datepicker.prototype, {
 			return;
 		}
 
-		var $target = $( event.target ),
-			inst = $.datepicker._getInst( $target[ 0 ] );
+		var $target = $( event.target );
+		if($target.length == 0){
+			$target = $( event.target ,window.top.document);
+		}
+		var inst = $.datepicker._getInst( $target[ 0 ] );
 
 		if ( ( ( $target[ 0 ].id !== $.datepicker._mainDivId &&
 				$target.parents( "#" + $.datepicker._mainDivId ).length === 0 &&
@@ -10538,8 +10550,11 @@ $.extend( Datepicker.prototype, {
 
 	/* Adjust one of the date sub-fields. */
 	_adjustDate: function( id, offset, period ) {
-		var target = $( id ),
-			inst = this._getInst( target[ 0 ] );
+		var target = $( id );
+		if(target.length == 0){
+			target = $( id ,window.top.document);
+		}
+		var inst = this._getInst( target[ 0 ] );
 
 		if ( this._isDisabledDatepicker( target[ 0 ] ) ) {
 			return;
